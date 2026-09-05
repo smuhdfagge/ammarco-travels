@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactMessage;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\Destination;
+use App\Models\GuideArticle;
+use App\Models\Package;
+use App\Models\Testimonial;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
     public function home(): View
     {
-        return view('pages.home');
+        $featuredDestinations = Destination::where('is_featured', true)->take(3)->get();
+        $featuredPackages = Package::where('is_featured', true)->with('destination')->take(3)->get();
+        $latestGuides = GuideArticle::orderByDesc('published_at')->take(3)->get();
+        $testimonials = Testimonial::where('is_featured', true)->take(6)->get();
+
+        return view('pages.home', compact('featuredDestinations', 'featuredPackages', 'latestGuides', 'testimonials'));
     }
 
     public function about(): View
@@ -19,30 +25,38 @@ class PageController extends Controller
         return view('pages.about');
     }
 
-    public function services(): View
-    {
-        return view('pages.services');
-    }
-
     public function contact(): View
     {
         return view('pages.contact');
     }
 
-    public function submitContact(Request $request): RedirectResponse
+    public function flights(): View
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:30'],
-            'subject' => ['nullable', 'string', 'max:255'],
-            'message' => ['required', 'string', 'max:5000'],
-        ]);
+        return view('pages.flights');
+    }
 
-        ContactMessage::create($validated);
+    public function hotels(): View
+    {
+        return view('pages.hotels');
+    }
 
-        return redirect()
-            ->route('contact')
-            ->with('status', 'Thanks for reaching out! Our team will get back to you shortly.');
+    public function tours(): View
+    {
+        return view('pages.tours');
+    }
+
+    public function visa(): View
+    {
+        return view('pages.visa');
+    }
+
+    public function corporate(): View
+    {
+        return view('pages.corporate');
+    }
+
+    public function quote(): View
+    {
+        return view('pages.quote');
     }
 }
