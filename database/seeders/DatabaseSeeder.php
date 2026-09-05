@@ -8,6 +8,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // No seed data required for the public marketing site.
+        $this->call([
+            DestinationSeeder::class,
+            PackageSeeder::class,
+            GuideArticleSeeder::class,
+            TestimonialSeeder::class,
+        ]);
     }
 }

@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('title', 'Contact Us')
+@section('meta_description', 'Contact Ammarco Travels — reach our travel consultants by phone, email or the form below.')
 
 @section('content')
     <section class="page-header">
         <div class="container">
+            <div class="breadcrumbs"><a href="{{ route('home') }}">Home</a> / Contact</div>
             <h1>Contact Us</h1>
             <p>We'd love to help plan your next trip. Reach out below.</p>
         </div>
@@ -19,15 +21,16 @@
                     <li><strong>Address:</strong> Kano, Nigeria</li>
                     <li><strong>Email:</strong> info@ammarcotravels.com</li>
                     <li><strong>Phone:</strong> +234 800 000 0000</li>
+                    <li><strong>WhatsApp:</strong> [Placeholder — pending number]</li>
                     <li><strong>Hours:</strong> Mon – Sat, 9:00am – 6:00pm</li>
                 </ul>
+                <p style="font-size: 13.5px; color: var(--muted);">For urgent travel support while abroad, please call our office directly.</p>
             </div>
 
             <div class="card">
                 @if (session('status'))
                     <div class="alert alert-success">{{ session('status') }}</div>
                 @endif
-
                 @if ($errors->any())
                     <div class="alert alert-error">
                         <ul>
@@ -38,7 +41,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('contact.submit') }}" class="contact-form">
+                <form method="POST" action="{{ route('contact.submit') }}">
                     @csrf
                     <div class="form-row">
                         <label for="name">Full Name</label>
